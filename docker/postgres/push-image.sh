@@ -25,7 +25,7 @@ while getopts ':a:r:' flag; do
   esac
 done
 
-IMAGE_NAME=${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/maskopy
+IMAGE_NAME=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/maskopy
 IMAGE_SUFFIX=$(date +%Y%m%d%H%M%S)
 cd release
 

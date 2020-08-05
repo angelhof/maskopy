@@ -77,14 +77,18 @@ find ${LAMBDA_DIRECTORY}/* -prune -type d | while IFS= read -r d; do
     echo "lambdaName: $d"
     cd "${LAMBDA_DIRECTORY}/${lambdaName}"
 	chmod 644 index.py
-    python3 -m pip install -r "${LAMBDA_DIRECTORY}/requirements.txt" -t .
-    zip -r "${lambdaName}.zip" *
+    # python3 -m pip install -r "${LAMBDA_DIRECTORY}/requirements.txt" --system  -t .
+    # zip -r "${lambdaName}.zip" *
+    zip "${lambdaName}.zip" index.py
     cp *.zip "${RELEASE_DIRECTORY}"
 done
 
 export CF_STACK_NAME=MASKOPY-lambda
 # Deploy the lambda code to S3.
 aws s3 cp "${RELEASE_DIRECTORY}" "s3://${S3_BUCKET}" --recursive
+
+export ECS_SERVICE_ROLE="ECS_MASKOPY"
+echo "ECS Service Role: ${ECS_SERVICE_ROLE}"
 
 # Create CloudFormation for lambda.
 cd "${PWD}"
