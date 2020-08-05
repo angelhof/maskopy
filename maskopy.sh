@@ -28,12 +28,12 @@ if [[ -z ${URL} ]]; then
 fi
 
 echo "Executing stateMachine: ${STEP_FN_ARN}"
-# executionArn=$(aws stepfunctions start-execution --query 'executionArn' --cli-input-json ' { "stateMachineArn": "'${STEP_FN_ARN}'", "name": "'${EXEC_NAME}'", "input": "{\"ApplicationName\": \"'${APPLICATION_NAME}'\",\"CostCenter\": \"'${COST_CENTER}'\",\"DestinationEnv\": \"'${DESTINATION_ENV}'\",\"RdsSnapshotIdentifier\":\"'${RDS_SNAPSHOT_IDENTIFIER}'\",\"RdsOptionGroup\": \"'${RDS_OPTION_GROUP}'\",\"RdsParameterGroup\":\"'${RDS_PARAMETER_GROUP}'\",\"ObfuscationScriptPath\":\"'${OBFUSCATION_SCRIPT_PATH}'\",\"PresignedUrl\":\"'${URL}'\" }" } ' | tr -d '"')
-# if [ "$?" -ne 0 ]
-# then
-#     echo "Deployment failed!"
-#     exit 1
-# fi
+executionArn=$(aws stepfunctions start-execution --query 'executionArn' --cli-input-json ' { "stateMachineArn": "'${STEP_FN_ARN}'", "name": "'${EXEC_NAME}'", "input": "{\"ApplicationName\": \"'${APPLICATION_NAME}'\",\"CostCenter\": \"'${COST_CENTER}'\",\"DestinationEnv\": \"'${DESTINATION_ENV}'\",\"RdsSnapshotIdentifier\":\"'${RDS_SNAPSHOT_IDENTIFIER}'\",\"RdsOptionGroup\": \"'${RDS_OPTION_GROUP}'\",\"RdsParameterGroup\":\"'${RDS_PARAMETER_GROUP}'\",\"ObfuscationScriptPath\":\"'${OBFUSCATION_SCRIPT_PATH}'\",\"PresignedUrl\":\"'${URL}'\" }" } ' | tr -d '"')
+if [ "$?" -ne 0 ]
+then
+    echo "Deployment failed!"
+    exit 1
+fi
 
 export MASKOPY_SEQUENTIAL=1
 
